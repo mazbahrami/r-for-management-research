@@ -21,8 +21,8 @@ model_2 <- update(
   . ~ . + discount_pct + competitor_price_index
 )
 
-glance(model_1) |> select(r.squared, adj.r.squared)
-glance(model_2) |> select(r.squared, adj.r.squared)
+glance(model_1) |> dplyr::select(r.squared, adj.r.squared)
+glance(model_2) |> dplyr::select(r.squared, adj.r.squared)
 tidy(model_2, conf.int = TRUE)
 vif(model_2)
 check_model(model_2)
