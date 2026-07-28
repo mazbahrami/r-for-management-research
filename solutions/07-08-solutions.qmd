@@ -31,14 +31,12 @@ profiles <- tibble(
   direct_booking = factor("Yes", levels = levels(hotel$direct_booking))
 )
 
-profiles <- profiles |>
-  mutate(
-    probability = predict(
-      upgrade_model,
-      newdata = profiles,
-      type = "response"
-    )
-  )
+profiles$probability <- predict(
+  upgrade_model,
+  newdata = profiles,
+  type = "response"
+)
+
 profiles
 
 prepare <- function(path) {
