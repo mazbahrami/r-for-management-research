@@ -1,7 +1,6 @@
-Upload or replace these files at the same paths in the GitHub repository:
-- modules/08-logistic-regression.qmd
-- solutions/07-08-solutions.qmd
-- code/08-logistic-regression.R
-- DESCRIPTION
+Upload/replace these three files in the matching GitHub folders:
+1. solutions/05-06-solutions.qmd
+2. solutions/07-08-solutions.qmd
+3. code/07-moderation-mediation.R
 
-The first two files fix the workflow failure. The code script and DESCRIPTION keep the release consistent.
+The first two affect the website render. The third keeps the downloadable R script consistent.
