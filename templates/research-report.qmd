@@ -1,0 +1,66 @@
+---
+title: "Quantitative Research Report"
+author: "Student name"
+date: today
+format:
+  html:
+    toc: true
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+## Research question
+
+State one focused empirical question.
+
+## Data and variables
+
+Describe the sample, outcome, predictors, measurement scales, and missing-data
+decisions. State whether the data are real or simulated.
+
+```{r}
+library(tidyverse)
+library(broom)
+
+data <- read_csv("data/employee_survey.csv", show_col_types = FALSE)
+```
+
+## Descriptive evidence
+
+Present the observations needed to understand the sample and variables.
+
+```{r}
+glimpse(data)
+summary(data)
+```
+
+## Analysis
+
+Explain why the selected method matches the research question and variable
+types. Run the analysis below.
+
+```{r}
+# Replace this example with your analysis.
+model <- lm(performance ~ workload + organizational_support, data = data)
+tidy(model, conf.int = TRUE)
+glance(model)
+```
+
+## Interpretation
+
+Explain direction, magnitude, uncertainty, and substantive meaning. Distinguish
+association from causation.
+
+## Diagnostics and robustness
+
+Show the checks appropriate for the selected method and note any concerns.
+
+## Limitations
+
+Discuss design, measurement, sample, missing data, and generalizability.
+
+## Reproducibility note
+
+List the data file, script or report file, packages, and any random seed used.

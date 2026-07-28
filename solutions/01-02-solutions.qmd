@@ -1,0 +1,56 @@
+---
+title: "Solutions: Exercises 1–2"
+---
+
+```{r}
+library(tidyverse)
+
+students <- 42
+weeks <- 12
+course_name <- "Research Project Design"
+mean(c(22, 25, 24, 29, 20))
+
+employees <- read_csv("data/employee_survey.csv", show_col_types = FALSE)
+dim(employees)
+glimpse(employees)
+
+employees |>
+  count(department, sort = TRUE)
+
+employees |>
+  summarise(
+    across(
+      c(age, tenure_years, workload, performance),
+      ~ mean(.x, na.rm = TRUE)
+    )
+  )
+
+employees |>
+  summarise(across(everything(), ~ sum(is.na(.x)))) |>
+  pivot_longer(everything(), names_to = "variable", values_to = "missing")
+
+employees_clean <- employees |>
+  mutate(
+    remote_mode = case_when(
+      remote_days == 0 ~ "On-site",
+      remote_days <= 3 ~ "Hybrid",
+      TRUE ~ "Mostly remote"
+    )
+  )
+
+employees_clean |>
+  group_by(training_group) |>
+  summarise(
+    n = sum(!is.na(performance)),
+    mean_performance = mean(performance, na.rm = TRUE),
+    sd_performance = sd(performance, na.rm = TRUE)
+  )
+
+employees_clean |>
+  ggplot(aes(x = performance)) +
+  geom_histogram(bins = 25)
+
+employees_clean |>
+  ggplot(aes(x = training_group, y = performance)) +
+  geom_boxplot()
+```

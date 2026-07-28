@@ -1,0 +1,99 @@
+---
+title: "Learning R for Management Research"
+subtitle: "A practical introduction to R and RStudio for quantitative management research"
+page-layout: full
+---
+
+::: {.hero-course}
+## Learn the research workflow—not isolated commands
+
+These materials help beginners turn a **management research question** into
+clean data, an appropriate statistical analysis, a careful interpretation, and
+a reproducible report.
+
+[Start with setup](getting-started.qmd){.btn .btn-primary}
+[View the course map](course-map.qmd){.btn .btn-outline-primary}
+[Open the GitHub repository](https://github.com/mazbahrami/r-for-management-research){.btn .btn-outline-secondary}
+:::
+
+## The learning pathway
+
+::: {.lesson-path}
+::: {.path-card}
+**1. Ask**
+Translate a managerial problem into a researchable question.
+:::
+::: {.path-card}
+**2. Prepare**
+Import, inspect, clean, and document the data.
+:::
+::: {.path-card}
+**3. Explore**
+Use summaries and graphs to understand patterns.
+:::
+::: {.path-card}
+**4. Test**
+Choose a method that fits the question and variables.
+:::
+::: {.path-card}
+**5. Interpret**
+Explain magnitude, uncertainty, assumptions, and limitations.
+:::
+::: {.path-card}
+**6. Report**
+Make the analysis transparent and reproducible.
+:::
+:::
+
+## What you will learn
+
+By the end of the pathway, you should be able to:
+
+- navigate RStudio and work from an R project;
+- import and clean a CSV dataset;
+- produce descriptive statistics and clear visualizations;
+- conduct and interpret correlations and t-tests;
+- evaluate survey reliability and build multi-item scales;
+- run and interpret exploratory factor analysis and chi-square tests;
+- estimate linear and logistic regression models;
+- diagnose common regression problems;
+- test and visualize moderation;
+- conduct a simple mediation analysis with appropriate caution;
+- reproduce an analysis in a second dataset;
+- communicate results to academic and managerial audiences.
+
+## How each lesson works
+
+Every lesson uses the same beginner-friendly structure:
+
+1. a concrete management question;
+2. the statistical idea in plain language;
+3. short, commented R code;
+4. interpretation of the output;
+5. a small practice task;
+6. common mistakes and a takeaway.
+
+## Teaching datasets
+
+The core examples use four documented synthetic datasets:
+
+- an employee and organizational practices survey;
+- a randomized management-training exercise;
+- a weekly marketing-mix dataset;
+- a hotel-upgrade dataset for logistic regression.
+
+A separate employee sample supports the final replication exercise.
+
+[Explore the datasets](datasets.qmd)
+
+## Scope
+
+This is an **applied introduction**, not a complete statistics textbook or a
+programming course. The materials focus on the methods used in introductory
+quantitative management research and on interpreting results responsibly.
+
+::: {.callout-note}
+The examples are designed for learning. A real research project also requires
+theory, defensible measurement, an appropriate sampling strategy, research
+ethics, and a design that supports the claims being made.
+:::

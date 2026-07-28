@@ -1,0 +1,13 @@
+---
+title: "Exercise 4: Measurement"
+---
+
+1. Reverse-code `leadership_4_reverse` and `engagement_4_reverse`.
+2. Estimate Cronbach's alpha for the four leadership items.
+3. Inspect item-total information. Is any item problematic?
+4. Create leadership and engagement mean scores.
+5. Run parallel analysis on all twelve survey items.
+6. Estimate a three-factor oblimin solution.
+7. Identify one strong loading and one cross-loading, if present.
+8. Test whether managerial status is associated with department.
+9. State what each method can and cannot establish.

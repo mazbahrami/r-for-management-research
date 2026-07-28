@@ -1,0 +1,51 @@
+dataset,variable,description,type,values_or_units,teaching_role
+employee_survey,employee_id,Synthetic employee identifier,character,,identifier
+employee_survey,age,Employee age,integer,years,control variable
+employee_survey,gender,Self-described gender category,categorical,Woman; Man; Non-binary / prefer not to say,descriptives
+employee_survey,department,Organizational function,categorical,Marketing; Operations; Finance; Technology; HR,grouping
+employee_survey,remote_days,Usual remote-working days per week,integer,0–5,recoding
+employee_survey,tenure_years,Organizational tenure,numeric,years,control variable
+employee_survey,manager,Whether the employee has managerial responsibility,binary,No/Yes,chi-square
+employee_survey,training_group,Experimental group assignment,binary,Control/Training,t-test
+employee_survey,leadership_1,Leadership item 1,Likert,1–5,reliability/EFA
+employee_survey,leadership_2,Leadership item 2,Likert,1–5,reliability/EFA
+employee_survey,leadership_3,Leadership item 3,Likert,1–5,reliability/EFA
+employee_survey,leadership_4_reverse,Negatively worded leadership item; reverse before scoring,Likert,1–5,reverse coding
+employee_survey,engagement_1,Engagement item 1,Likert,1–5,reliability/EFA
+employee_survey,engagement_2,Engagement item 2,Likert,1–5,reliability/EFA
+employee_survey,engagement_3,Engagement item 3,Likert,1–5,reliability/EFA
+employee_survey,engagement_4_reverse,Negatively worded engagement item; reverse before scoring,Likert,1–5,reverse coding
+employee_survey,role_clarity_1,Role clarity item 1,Likert,1–5,reliability/EFA
+employee_survey,role_clarity_2,Role clarity item 2,Likert,1–5,reliability/EFA
+employee_survey,role_clarity_3,Role clarity item 3,Likert,1–5,reliability/EFA
+employee_survey,role_clarity_4,Role clarity item 4,Likert,1–5,reliability/EFA
+employee_survey,workload,Perceived workload score,numeric,1–7,moderation predictor
+employee_survey,organizational_support,Perceived organizational support,numeric,1–7,moderator
+employee_survey,job_satisfaction,Job satisfaction score,numeric,1–7,correlation/outcome
+employee_survey,performance,Performance score,numeric,0–100,continuous outcome
+employee_survey,burnout,Burnout score,numeric,15–90,moderation outcome
+employee_survey,turnover_intention,Turnover-intention score,numeric,1–7,recoding/chi-square
+training_experiment,participant_id,Synthetic participant identifier,categorical,,t-tests
+training_experiment,group,Control or training group,categorical,,t-tests
+training_experiment,pre_score,Score before the intervention,numeric,0–100,t-tests
+training_experiment,post_score,Score after the intervention,numeric,0–100,t-tests
+training_experiment,change_score,Post minus pre score,numeric,0–100,t-tests
+marketing_mix,week,Week,numeric,,regression/diagnostics
+marketing_mix,date,Date,date,,regression/diagnostics
+marketing_mix,search_ads_k_eur,Search Ads K Eur,numeric,thousand EUR,regression/diagnostics
+marketing_mix,social_ads_k_eur,Social Ads K Eur,numeric,thousand EUR,regression/diagnostics
+marketing_mix,email_ads_k_eur,Email Ads K Eur,numeric,thousand EUR,regression/diagnostics
+marketing_mix,discount_pct,Discount Pct,numeric,,regression/diagnostics
+marketing_mix,competitor_price_index,Competitor Price Index,numeric,,regression/diagnostics
+marketing_mix,sales_k_eur,Sales K Eur,numeric,thousand EUR,regression/diagnostics
+hotel_upgrades,guest_id,Guest Id,categorical,,logistic regression
+hotel_upgrades,loyalty_status,Loyalty Status,categorical,,logistic regression
+hotel_upgrades,prior_stays,Prior Stays,numeric,,logistic regression
+hotel_upgrades,stay_nights,Stay Nights,numeric,,logistic regression
+hotel_upgrades,occupancy_rate,Occupancy Rate,numeric,,logistic regression
+hotel_upgrades,checkin_hour,Checkin Hour,numeric,,logistic regression
+hotel_upgrades,special_event,Special Event,categorical,,logistic regression
+hotel_upgrades,direct_booking,Direct Booking,categorical,,logistic regression
+hotel_upgrades,booked_room,Booked Room,categorical,,logistic regression
+hotel_upgrades,total_spend_eur,Total Spend Eur,numeric,,logistic regression
+hotel_upgrades,upgrade,Upgrade,numeric,0/1,logistic regression

@@ -1,0 +1,46 @@
+---
+title: "Course map"
+---
+
+## Alignment with Research Project Design
+
+The teaching package follows the quantitative R components of the course while
+keeping the workload suitable for beginners.
+
+| Lab | Course focus | Repository lessons | Main dataset |
+|---|---|---|---|
+| **Lab 1** | Introduction to R | First steps | Employee survey |
+| **Lab 2** | Data cleaning, descriptive statistics, t-tests | Clean and describe; correlations and t-tests | Employee survey; training experiment |
+| **Lab 3** | Reliability, EFA, t-test, chi-square | Reliability and scales; EFA and chi-square | Employee survey |
+| **Lab 4** | Marketing-mix regression and diagnostics | Regression and diagnostics | Marketing mix |
+| **Lab 5** | Moderation, mediation, replication | Moderation and mediation; replication and reporting | Employee survey; replication sample |
+| **Optional extension** | Logistic regression and managerial interpretation | Logistic regression | Hotel upgrades |
+
+## Recommended lab structure
+
+A 90-minute session can follow this sequence:
+
+| Time | Activity |
+|---:|---|
+| 0–10 min | Research question and method choice |
+| 10–25 min | Instructor live coding |
+| 25–45 min | Guided student coding |
+| 45–60 min | Interpretation discussion |
+| 60–78 min | Short independent exercise |
+| 78–90 min | Debrief, common errors, takeaway |
+
+## What is intentionally excluded
+
+To protect beginner cognitive load, the core pathway does not teach:
+
+- loops and functional programming;
+- writing custom R packages;
+- advanced Git commands;
+- machine learning;
+- multilevel or longitudinal models;
+- structural equation modelling;
+- advanced causal inference;
+- highly customized graphics.
+
+These can be learned later after students can confidently manage a basic
+research workflow.

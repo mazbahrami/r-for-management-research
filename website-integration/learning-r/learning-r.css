@@ -1,0 +1,17 @@
+.learning-r-hero{background:linear-gradient(180deg,color-mix(in srgb,var(--accent-soft) 48%,transparent),transparent)}
+.learning-r-hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:74px;align-items:center}
+.learning-r-hero h1{font-size:clamp(3.25rem,6vw,5.5rem);max-width:970px}
+.learning-download{align-self:center;margin-left:8px}
+.learning-r-panel{background:var(--accent-dark);color:#fff;border-radius:28px;padding:34px;box-shadow:var(--shadow)}
+.learning-r-panel .kicker{color:#9ed1d1}.learning-r-panel ol{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.learning-r-panel li{display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:center;padding:17px 0;border-bottom:1px solid rgba(255,255,255,.16);font-family:var(--serif);font-size:1.08rem}
+.learning-r-panel li:last-child{border-bottom:0}.learning-r-panel li span{color:#8fc5c7;font-family:var(--sans);font-size:.72rem;letter-spacing:.1em}
+.learning-path{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:13px;padding:34px;border:1px solid var(--line);border-radius:24px;background:var(--surface)}
+.learning-path span{font-family:var(--serif);font-size:clamp(1.15rem,2vw,1.55rem);font-weight:600}.learning-path i{font-style:normal;color:var(--accent);font-size:1.35rem}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.module-grid article{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:27px;min-height:220px}
+.module-grid article>span{display:block;color:var(--accent);font-family:var(--serif);font-style:italic;margin-bottom:28px}.module-grid h3{margin-bottom:12px}.module-grid p{color:var(--muted);line-height:1.7;margin-bottom:0}
+.resource-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:80px;align-items:center}.resource-list{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.resource-list div{padding:25px;border:1px solid rgba(255,255,255,.2);border-radius:18px;display:grid;gap:5px}.resource-list strong{font-family:var(--serif);font-size:2.4rem;color:#fff}.resource-list span{color:#c7dadb}
+@media(max-width:1100px){.site-nav{gap:17px}.site-nav a{font-size:.83rem}}
+@media(max-width:980px){.learning-r-hero-grid,.resource-grid{grid-template-columns:1fr;gap:44px}.module-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.module-grid,.resource-list{grid-template-columns:1fr}.learning-r-panel{padding:26px}.learning-path{justify-content:flex-start}.learning-download{width:100%;margin-left:0;margin-top:6px}}

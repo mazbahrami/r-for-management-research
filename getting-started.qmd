@@ -1,0 +1,105 @@
+---
+title: "Getting started"
+---
+
+## What you need
+
+Install:
+
+1. **R**, the statistical programming language;
+2. **RStudio Desktop**, the interface used in the course;
+3. **Quarto**, only if you want to render the complete website or reports.
+
+You do not need previous programming experience.
+
+## Download the course
+
+The easiest beginner workflow is:
+
+1. open the GitHub repository;
+2. choose **Code → Download ZIP**;
+3. extract the ZIP;
+4. double-click `r-for-management-research.Rproj`.
+
+Opening the `.Rproj` file sets the project folder as the working context. This
+means that paths such as `data/employee_survey.csv` work consistently.
+
+## Install the packages
+
+Open `R/install_packages.R` and click **Source**, or run:
+
+```{r}
+#| eval: false
+source("R/install_packages.R")
+```
+
+Then check the installation:
+
+```{r}
+#| eval: false
+source("R/check_setup.R")
+```
+
+## Know the four RStudio panes
+
+- **Source**: where you write and save scripts.
+- **Console**: where R executes commands.
+- **Environment**: objects currently stored in memory.
+- **Files / Plots / Packages / Help**: files, visual output, packages, and documentation.
+
+## Your first commands
+
+```{r}
+#| eval: false
+2 + 2
+
+course_name <- "Research Project Design"
+number_of_students <- 30
+
+course_name
+number_of_students
+```
+
+`<-` assigns a value to an object. Read it as “gets”.
+
+## Run code safely
+
+Place the cursor on a line and use:
+
+- Windows/Linux: `Ctrl + Enter`
+- macOS: `Cmd + Enter`
+
+Run code from the top of a script in order. If an object has not yet been
+created, later code that depends on it will fail.
+
+## File paths
+
+Use project-relative paths:
+
+```{r}
+#| eval: false
+employees <- readr::read_csv("data/employee_survey.csv")
+```
+
+Avoid paths tied to one computer, such as:
+
+```r
+# Do not use this:
+"C:/Users/YourName/Desktop/course/data.csv"
+```
+
+## A simple debugging routine
+
+When code fails:
+
+1. read the first error message;
+2. check spelling and capitalization;
+3. check commas, brackets, and quotation marks;
+4. confirm the package was loaded;
+5. confirm the object and variable names exist;
+6. run the previous lines again.
+
+::: {.callout-tip}
+Errors are normal. The useful question is not “Why am I bad at R?” but “What
+specific information is the error giving me?”
+:::

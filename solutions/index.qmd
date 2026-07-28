@@ -1,0 +1,11 @@
+---
+title: "Solutions"
+---
+
+The solution scripts are deliberately concise. More than one correct workflow
+is possible.
+
+- [Exercises 1–2](01-02-solutions.qmd)
+- [Exercises 3–4](03-04-solutions.qmd)
+- [Exercises 5–6](05-06-solutions.qmd)
+- [Exercises 7–8](07-08-solutions.qmd)

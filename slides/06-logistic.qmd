@@ -1,0 +1,35 @@
+---
+title: "Extension: Logistic Regression"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Binary outcome
+
+- Upgrade = 0 or 1
+- Logistic regression keeps predictions between 0 and 1
+
+## Outputs
+
+- Log-odds coefficients
+- Odds ratios
+- Predicted probabilities
+
+## Applied question
+
+- Which guest and booking characteristics are associated with a hotel upgrade?
+
+## Communication
+
+- Probabilities are usually clearer than odds ratios
+- Compare profiles that differ on one characteristic at a time
+
+## Governance
+
+- Prediction is not automatically a legitimate decision rule
+- Consider fairness, transparency, and use context

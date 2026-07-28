@@ -1,0 +1,36 @@
+---
+title: "Lab 5: Moderation, Mediation, and Replication"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Moderation
+
+- When or for whom does a relationship change?
+- Interaction: workload × organizational support
+
+## Mediation
+
+- Through what statistical pathway are variables related?
+- Leadership → engagement → performance
+
+## Causal caution
+
+- Temporal ordering and confounding matter
+- Cross-sectional mediation is a statistical pathway, not proof of mechanism
+
+## Replication
+
+- Apply the same preparation and model to a new sample
+- Compare direction, magnitude, and uncertainty—not only p-values
+
+## Final output
+
+- One transparent table
+- One clear figure
+- One bounded interpretation paragraph

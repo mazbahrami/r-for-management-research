@@ -1,0 +1,189 @@
+---
+title: "2. Clean, describe, and visualize data"
+---
+
+## Learning goals
+
+You will learn to:
+
+- inspect missing values;
+- select, filter, recode, and summarize variables;
+- calculate descriptive statistics;
+- compare groups;
+- create a histogram and a boxplot.
+
+::: {.research-question}
+**Research question:** What does the employee survey tell us about performance,
+satisfaction, and differences between the training groups?
+:::
+
+## Import and clean names
+
+```{r}
+library(tidyverse)
+library(janitor)
+
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+) |>
+  clean_names()
+```
+
+The pipe `|>` sends the result of one step into the next step. It can be read as
+“then”.
+
+## Check missing values
+
+```{r}
+employees |>
+  summarise(
+    missing_performance = sum(is.na(performance)),
+    missing_satisfaction = sum(is.na(job_satisfaction))
+  )
+```
+
+`NA` means a value is missing. Missing data should be examined rather than
+silently ignored.
+
+## Select variables
+
+```{r}
+employees |>
+  select(
+    employee_id,
+    department,
+    training_group,
+    performance
+  )
+```
+
+## Filter rows
+
+```{r}
+employees |>
+  filter(department == "Marketing")
+```
+
+Use `==` to ask whether two values are equal. A single `=` is normally used to
+name a function argument.
+
+## Create categories
+
+```{r}
+employees_clean <- employees |>
+  mutate(
+    remote_mode = case_when(
+      remote_days == 0 ~ "On-site",
+      remote_days <= 3 ~ "Hybrid",
+      remote_days >= 4 ~ "Mostly remote"
+    ),
+    high_turnover_intention = if_else(
+      turnover_intention >= 5,
+      "High",
+      "Not high"
+    )
+  )
+```
+
+`mutate()` creates or changes variables. `case_when()` is useful when a new
+category depends on several rules.
+
+## Count categories
+
+```{r}
+employees_clean |>
+  count(department, sort = TRUE)
+```
+
+## Calculate descriptive statistics
+
+```{r}
+employees_clean |>
+  summarise(
+    n = n(),
+    mean_performance = mean(performance, na.rm = TRUE),
+    sd_performance = sd(performance, na.rm = TRUE),
+    median_performance = median(performance, na.rm = TRUE),
+    mean_satisfaction = mean(job_satisfaction, na.rm = TRUE)
+  )
+```
+
+- The **mean** is the arithmetic average.
+- The **median** is the middle value.
+- The **standard deviation** describes spread around the mean.
+
+`na.rm = TRUE` tells the function to remove missing values for that calculation.
+
+## Compare groups
+
+```{r}
+employees_clean |>
+  group_by(training_group) |>
+  summarise(
+    n = n(),
+    mean_performance = mean(performance, na.rm = TRUE),
+    sd_performance = sd(performance, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+`group_by()` changes the level at which a later summary is calculated.
+
+## Visualize a distribution
+
+```{r}
+ggplot(employees_clean, aes(x = performance)) +
+  geom_histogram(binwidth = 5, boundary = 0) +
+  labs(
+    title = "Distribution of employee performance",
+    x = "Performance score",
+    y = "Number of employees"
+  )
+```
+
+A histogram shows the shape, centre, and spread of a numeric variable.
+
+## Compare distributions across groups
+
+```{r}
+ggplot(
+  employees_clean,
+  aes(x = training_group, y = performance)
+) +
+  geom_boxplot() +
+  labs(
+    title = "Performance by training group",
+    x = NULL,
+    y = "Performance score"
+  )
+```
+
+A boxplot helps compare medians, spread, and unusual observations.
+
+::: {.interpretation}
+A visible difference in a graph is descriptive evidence. It does not by itself
+show whether the difference is statistically distinguishable from random
+variation, nor whether training caused the difference.
+:::
+
+## Practice
+
+1. Calculate mean burnout by department.
+2. Count employees in each `remote_mode`.
+3. Draw a histogram of `job_satisfaction`.
+4. Draw a boxplot of burnout by `remote_mode`.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Forgetting `na.rm = TRUE` when missing values are present.
+- Treating a coded category as if it were a continuous number.
+- Reporting only a mean without also checking the distribution.
+- Using a graph to make a causal claim.
+:::
+
+## Takeaway
+
+Cleaning and descriptive analysis come before formal tests. They reveal data
+quality problems and help determine which method is appropriate.

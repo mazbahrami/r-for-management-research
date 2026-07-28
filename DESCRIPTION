@@ -1,0 +1,23 @@
+Package: rformanagementresearch
+Title: Learning R for Management Research
+Version: 0.2.0
+Authors@R: person("Maziyar", "Bahrami", email = "mbahrami@luiss.it", role = c("aut", "cre"))
+Description: Teaching materials, examples, exercises, and datasets for an applied beginner course in R and quantitative management research.
+License: MIT + file LICENSE-CODE
+Encoding: UTF-8
+Imports:
+    downlit,
+    broom,
+    car,
+    effectsize,
+    interactions,
+    janitor,
+    knitr,
+    mediation,
+    performance,
+    psych,
+    readr,
+    rmarkdown,
+    scales,
+    tidyverse,
+    xml2

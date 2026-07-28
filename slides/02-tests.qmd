@@ -1,0 +1,41 @@
+---
+title: "Lab 2: Correlations and t-tests"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Method selection
+
+- Two continuous variables → correlation
+- Two independent groups → independent t-test
+- Same people twice → paired t-test
+
+## Before testing
+
+- Check variable types
+- Plot the data
+- Inspect missingness and unusual values
+
+## Evidence
+
+- Estimate
+- Confidence interval
+- p-value
+- Effect size
+- Substantive context
+
+## Research examples
+
+- Workload and burnout
+- Training group and performance
+- Pre- and post-training scores
+
+## Responsible conclusion
+
+- Association is not causation
+- Statistical significance is not practical importance

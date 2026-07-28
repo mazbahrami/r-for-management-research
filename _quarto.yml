@@ -1,0 +1,116 @@
+project:
+  type: website
+  output-dir: _site
+  execute-dir: project
+  render:
+    - "*.qmd"
+    - "modules/*.qmd"
+    - "exercises/*.qmd"
+    - "solutions/*.qmd"
+    - "slides/*.qmd"
+    - "!templates/*.qmd"
+  resources:
+    - data/*.csv
+    - code/*.R
+    - templates/*.qmd
+    - LICENSE-CONTENT.md
+    - LICENSE-CODE
+
+website:
+  title: "Learning R for Management Research"
+  site-url: "https://mazbahrami.github.io/r-for-management-research/"
+  description: "Applied, beginner-friendly R and RStudio materials for quantitative management research."
+  favicon: assets/favicon.svg
+  repo-url: "https://github.com/mazbahrami/r-for-management-research"
+  repo-actions: [edit, issue]
+  navbar:
+    background: primary
+    left:
+      - href: index.qmd
+        text: Home
+      - href: course-map.qmd
+        text: Course map
+      - text: Lessons
+        menu:
+          - href: modules/01-first-steps.qmd
+            text: "1. First steps"
+          - href: modules/02-clean-describe.qmd
+            text: "2. Clean and describe"
+          - href: modules/03-correlations-t-tests.qmd
+            text: "3. Correlations and t-tests"
+          - href: modules/04-reliability-scales.qmd
+            text: "4. Reliability and scales"
+          - href: modules/05-efa-chi-square.qmd
+            text: "5. EFA and chi-square"
+          - href: modules/06-regression-diagnostics.qmd
+            text: "6. Regression and diagnostics"
+          - href: modules/07-moderation-mediation.qmd
+            text: "7. Moderation and mediation"
+          - href: modules/08-logistic-regression.qmd
+            text: "8. Logistic regression"
+          - href: modules/09-replication-reporting.qmd
+            text: "9. Replication and reporting"
+      - href: datasets.qmd
+        text: Data
+      - href: resources.qmd
+        text: Resources
+    right:
+      - icon: github
+        href: "https://github.com/mazbahrami/r-for-management-research"
+        aria-label: GitHub
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - section: "Start here"
+        contents:
+          - index.qmd
+          - getting-started.qmd
+          - course-map.qmd
+      - section: "Core lessons"
+        contents:
+          - modules/01-first-steps.qmd
+          - modules/02-clean-describe.qmd
+          - modules/03-correlations-t-tests.qmd
+          - modules/04-reliability-scales.qmd
+          - modules/05-efa-chi-square.qmd
+          - modules/06-regression-diagnostics.qmd
+          - modules/07-moderation-mediation.qmd
+          - modules/08-logistic-regression.qmd
+          - modules/09-replication-reporting.qmd
+      - section: "Practice"
+        contents:
+          - exercises/index.qmd
+          - solutions/index.qmd
+      - section: "Reference"
+        contents:
+          - datasets.qmd
+          - resources.qmd
+  page-footer:
+    left: "Developed by Maziyar Bahrami."
+    center: "Teaching content: CC BY 4.0 · Code: MIT"
+    right:
+      - text: "Personal website"
+        href: "https://mazbahrami.github.io/"
+      - icon: github
+        href: "https://github.com/mazbahrami"
+
+format:
+  html:
+    theme:
+      light: [cosmo, assets/course.scss]
+      dark: [darkly, assets/course.scss]
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    code-link: true
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto

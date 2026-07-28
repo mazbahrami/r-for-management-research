@@ -1,0 +1,175 @@
+---
+title: "6. Linear regression and diagnostics"
+---
+
+## Learning goals
+
+You will learn to:
+
+- translate a management question into a regression model;
+- interpret coefficients, confidence intervals, and model fit;
+- distinguish association from causation;
+- inspect linearity, residuals, multicollinearity, and influential cases;
+- communicate results without overstating them.
+
+::: {.research-question}
+**Research question:** Which marketing activities are associated with weekly sales, after accounting for the other activities and market conditions?
+:::
+
+## The idea
+
+Linear regression estimates the expected change in a continuous outcome for a
+one-unit change in a predictor, while holding the other included predictors
+constant.
+
+For this lesson:
+
+- outcome: weekly sales in thousands of euros;
+- predictors: search, social, and email advertising, discount, and competitor
+  price index.
+
+## Import and inspect
+
+```{r}
+library(tidyverse)
+library(broom)
+library(car)
+library(performance)
+
+marketing <- read_csv(
+  "data/marketing_mix.csv",
+  show_col_types = FALSE
+)
+
+glimpse(marketing)
+summary(marketing)
+```
+
+## Begin with a graph
+
+```{r}
+marketing |>
+  ggplot(aes(x = search_ads_k_eur, y = sales_k_eur)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Search advertising and weekly sales",
+    x = "Search advertising (thousand EUR)",
+    y = "Sales (thousand EUR)"
+  )
+```
+
+A graph is not a substitute for a model, but it can reveal nonlinearity,
+unusual observations, or data-entry problems.
+
+## Estimate a multiple regression
+
+```{r}
+marketing_model <- lm(
+  sales_k_eur ~
+    search_ads_k_eur +
+    social_ads_k_eur +
+    email_ads_k_eur +
+    discount_pct +
+    competitor_price_index,
+  data = marketing
+)
+
+summary(marketing_model)
+```
+
+A compact table is easier to reuse:
+
+```{r}
+tidy(marketing_model, conf.int = TRUE)
+glance(marketing_model)
+```
+
+## Interpret one coefficient
+
+Suppose the coefficient for `search_ads_k_eur` is positive. The interpretation
+is:
+
+> Holding the other variables in the model constant, an additional thousand
+euros of search advertising is associated with an estimated change of **b**
+thousand euros in weekly sales.
+
+Do not say that advertising *caused* the change unless the research design
+supports a causal conclusion.
+
+## Model fit
+
+`glance()` reports, among other statistics:
+
+- **R-squared:** share of sample variation in sales explained by the model;
+- **adjusted R-squared:** R-squared adjusted for the number of predictors;
+- **F-test:** whether the model as a whole improves on an intercept-only model.
+
+High R-squared does not prove that the model is correct or causal.
+
+## Check multicollinearity
+
+```{r}
+vif(marketing_model)
+```
+
+Variance inflation factors indicate whether predictors contain strongly
+overlapping information. They are a diagnostic signal, not an automatic rule
+for deleting variables.
+
+## Check assumptions visually
+
+```{r}
+check_model(marketing_model)
+```
+
+Focus on four questions:
+
+1. Is the relationship approximately linear?
+2. Are residuals distributed around zero without a clear pattern?
+3. Is residual spread reasonably stable?
+4. Are a few observations unusually influential?
+
+## Inspect influential observations
+
+```{r}
+marketing_diagnostics <- augment(marketing_model) |>
+  mutate(row_number = row_number()) |>
+  arrange(desc(.cooksd))
+
+marketing_diagnostics |>
+  select(row_number, .fitted, .resid, .std.resid, .cooksd) |>
+  slice_head(n = 5)
+```
+
+One week in the teaching data is intentionally unusual. Investigate it rather
+than deleting it automatically. Ask whether it is an error, a genuine event,
+or evidence that the model is incomplete.
+
+::: {.interpretation}
+A good regression report combines the research question, coefficient estimates,
+uncertainty, model fit, diagnostics, and limitations. A p-value alone is not a
+substantive conclusion.
+:::
+
+## Practice
+
+1. Estimate a model with only the three advertising channels.
+2. Add discount and competitor price index. What changes?
+3. Identify the most influential week and inspect its raw values.
+4. Write a three-sentence interpretation of one coefficient.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Interpreting every coefficient causally.
+- Comparing coefficient sizes when variables use very different units.
+- Ignoring diagnostic plots.
+- Deleting unusual observations only because they reduce significance.
+- Reporting R-squared without describing the outcome and sample.
+:::
+
+## Takeaway
+
+Regression estimates conditional associations. Credible use requires both
+substantive interpretation and diagnostic checking.

@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: "Learning R for Management Research"
+message: "Please cite this teaching resource if you reuse or adapt it."
+type: software
+authors:
+  - family-names: Bahrami
+    given-names: Maziyar
+    email: mbahrami@luiss.it
+repository-code: "https://github.com/mazbahrami/r-for-management-research"
+url: "https://mazbahrami.github.io/r-for-management-research/"
+license: MIT
+version: 0.2.0
+date-released: 2026-07-28

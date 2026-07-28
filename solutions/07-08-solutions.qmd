@@ -1,0 +1,56 @@
+---
+title: "Solutions: Exercises 7–8"
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+
+hotel <- read_csv("data/hotel_upgrades.csv", show_col_types = FALSE) |>
+  mutate(
+    loyalty_status = factor(loyalty_status, levels = c("None", "Silver", "Gold", "Platinum")),
+    special_event = factor(special_event),
+    direct_booking = factor(direct_booking)
+  )
+
+mean(hotel$upgrade)
+upgrade_model <- glm(
+  upgrade ~ loyalty_status + prior_stays + occupancy_rate +
+    total_spend_eur + special_event + direct_booking,
+  family = binomial,
+  data = hotel
+)
+tidy(upgrade_model, exponentiate = TRUE, conf.int = TRUE)
+
+profiles <- tibble(
+  loyalty_status = factor(c("None", "Gold"), levels = levels(hotel$loyalty_status)),
+  prior_stays = 3,
+  occupancy_rate = 75,
+  total_spend_eur = 500,
+  special_event = factor("No", levels = levels(hotel$special_event)),
+  direct_booking = factor("Yes", levels = levels(hotel$direct_booking))
+) |>
+  mutate(probability = predict(upgrade_model, newdata = ., type = "response"))
+profiles
+
+prepare <- function(path) {
+  read_csv(path, show_col_types = FALSE) |>
+    mutate(
+      engagement_4 = 6 - engagement_4_reverse,
+      engagement = rowMeans(across(c(engagement_1, engagement_2, engagement_3, engagement_4)), na.rm = TRUE)
+    )
+}
+
+original <- prepare("data/employee_survey.csv")
+replication <- prepare("data/employee_replication.csv")
+
+original_model <- lm(performance ~ engagement + workload + training_group, data = original)
+replication_model <- lm(performance ~ engagement + workload + training_group, data = replication)
+
+comparison <- bind_rows(
+  tidy(original_model, conf.int = TRUE) |> mutate(sample = "Original"),
+  tidy(replication_model, conf.int = TRUE) |> mutate(sample = "Replication")
+)
+comparison
+write_csv(comparison, "replication_model_comparison.csv")
+```

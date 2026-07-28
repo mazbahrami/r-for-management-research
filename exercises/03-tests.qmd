@@ -1,0 +1,12 @@
+---
+title: "Exercise 3: Correlations and t-tests"
+---
+
+1. Test the correlation between workload and burnout.
+2. Report the correlation, confidence interval, and p-value.
+3. Compare performance between training groups with an independent t-test.
+4. Calculate and report a standardized effect size.
+5. Using `training_experiment.csv`, test whether post-scores differ between
+   groups.
+6. Run a paired t-test comparing pre- and post-score for the training group.
+7. Explain why statistical significance is not the same as practical importance.

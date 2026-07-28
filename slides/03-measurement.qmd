@@ -1,0 +1,36 @@
+---
+title: "Lab 3: Reliability, EFA, and Chi-square"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Why measurement matters
+
+- Constructs such as leadership are not observed directly
+- Multiple items can provide more defensible measurement
+
+## Reverse coding
+
+- Correct direction before combining items
+- For a 1–5 item: `new = 6 - old`
+
+## Reliability
+
+- Do items behave consistently as a scale?
+- Alpha does not prove validity or one-dimensionality
+
+## EFA
+
+- Explore latent dimensions
+- Use parallel analysis and interpretable rotated loadings
+- Theory remains necessary
+
+## Chi-square
+
+- Tests association between categorical variables
+- Interpret row percentages and expected counts—not only p

@@ -1,0 +1,59 @@
+---
+title: "Further learning"
+---
+
+## Recommended beginner resources
+
+### [R for Data Science, 2e](https://r4ds.hadley.nz/)
+
+Best for the broader workflow of importing, transforming, visualizing, and
+organizing data. Use the *Whole Game* chapter after completing the first two
+modules here.
+
+### [Data Carpentry: R for Social Scientists](https://datacarpentry.org/r-socialsci/)
+
+Best for short, research-oriented lessons designed for learners with no
+programming experience.
+
+### [ModernDive](https://moderndive.com/)
+
+Best for connecting data visualization, regression, confidence intervals, and
+statistical inference.
+
+### [Intro2R](https://intro2r.com/)
+
+A clear beginner reference for R and RStudio, also recommended in the Luiss
+course materials.
+
+### [Posit RStudio guide](https://docs.posit.co/ide/user/ide/get-started/)
+
+Use the official guide for current information about the RStudio interface,
+projects, scripts, plots, and help.
+
+### [Posit cheatsheets](https://posit.co/resources/cheatsheets/)
+
+Keep the RStudio IDE, data transformation, and ggplot2 sheets available as quick
+references during practice.
+
+## How to use external resources
+
+Do not try to complete several full books at once. For each course topic:
+
+1. complete the corresponding lesson in this repository;
+2. use one external resource only for a second explanation;
+3. modify the example code with a different variable;
+4. write one sentence interpreting the result.
+
+## Methodological caution
+
+R can calculate a result even when the research design does not justify the
+interpretation. Always ask:
+
+- What is the research question?
+- What type of variables are involved?
+- What assumptions does the method make?
+- Is the evidence descriptive, predictive, associational, or causal?
+- What uncertainty and limitations should be reported?
+
+See `references/resource-benchmark.md` for the design review behind this
+course.

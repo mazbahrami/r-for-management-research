@@ -1,0 +1,72 @@
+---
+title: "Solutions: Exercises 5–6"
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+library(car)
+library(performance)
+library(interactions)
+library(mediation)
+
+marketing <- read_csv("data/marketing_mix.csv", show_col_types = FALSE)
+
+model_1 <- lm(
+  sales_k_eur ~ search_ads_k_eur + social_ads_k_eur + email_ads_k_eur,
+  data = marketing
+)
+model_2 <- update(
+  model_1,
+  . ~ . + discount_pct + competitor_price_index
+)
+
+glance(model_1) |> select(r.squared, adj.r.squared)
+glance(model_2) |> select(r.squared, adj.r.squared)
+tidy(model_2, conf.int = TRUE)
+vif(model_2)
+check_model(model_2)
+
+augmented <- augment(model_2) |> mutate(row_number = row_number())
+most_influential <- augmented |> slice_max(.cooksd, n = 1)
+most_influential
+
+sensitivity_model <- lm(
+  formula(model_2),
+  data = marketing[-most_influential$row_number, ]
+)
+bind_rows(
+  tidy(model_2) |> mutate(model = "All weeks"),
+  tidy(sensitivity_model) |> mutate(model = "Sensitivity")
+)
+
+employees <- read_csv("data/employee_survey.csv", show_col_types = FALSE) |>
+  mutate(
+    leadership_4 = 6 - leadership_4_reverse,
+    engagement_4 = 6 - engagement_4_reverse,
+    leadership = rowMeans(across(c(leadership_1, leadership_2, leadership_3, leadership_4)), na.rm = TRUE),
+    engagement = rowMeans(across(c(engagement_1, engagement_2, engagement_3, engagement_4)), na.rm = TRUE),
+    workload_c = workload - mean(workload, na.rm = TRUE),
+    support_c = organizational_support - mean(organizational_support, na.rm = TRUE)
+  )
+
+moderation_model <- lm(
+  burnout ~ workload_c * support_c + age + tenure_years,
+  data = employees
+)
+tidy(moderation_model, conf.int = TRUE)
+interact_plot(moderation_model, pred = workload_c, modx = support_c)
+
+mediation_data <- employees |>
+  drop_na(leadership, engagement, performance, age, tenure_years)
+
+mediator_model <- lm(engagement ~ leadership + age + tenure_years, data = mediation_data)
+outcome_model <- lm(performance ~ leadership + engagement + age + tenure_years, data = mediation_data)
+set.seed(2026)
+mediation_result <- mediate(
+  mediator_model, outcome_model,
+  treat = "leadership", mediator = "engagement",
+  boot = TRUE, sims = 500
+)
+summary(mediation_result)
+```

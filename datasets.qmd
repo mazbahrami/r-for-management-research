@@ -1,0 +1,90 @@
+---
+title: "Datasets"
+---
+
+## Dataset strategy
+
+The course uses a small number of connected datasets. Reusing the same
+variables across lessons helps students focus on the method rather than
+relearning a new context every week.
+
+All core datasets are synthetic. They contain no real employee, customer,
+hotel, organizational, or student information.
+
+## 1. Employee and organizational practices survey
+
+**File:** [`data/employee_survey.csv`](data/employee_survey.csv)
+
+**Rows:** 480 synthetic employees
+
+**Uses:** cleaning, visualization, correlations, t-tests, reliability, scale
+construction, exploratory factor analysis, chi-square tests, moderation, and
+mediation.
+
+Key constructs include leadership, engagement, role clarity, workload,
+organizational support, satisfaction, performance, burnout, and turnover
+intention.
+
+## 2. Management-training experiment
+
+**File:** [`data/training_experiment.csv`](data/training_experiment.csv)
+
+**Rows:** 220 synthetic participants
+
+**Uses:** independent-samples and paired-samples t-tests.
+
+The dataset contains pre-intervention and post-intervention scores for a
+training and control group.
+
+## 3. Marketing mix
+
+**File:** [`data/marketing_mix.csv`](data/marketing_mix.csv)
+
+**Rows:** 156 weekly observations
+
+**Uses:** multiple linear regression, multicollinearity, residual diagnostics,
+and influential observations.
+
+The variables include spending on search, social, and email advertising,
+discounts, a competitor price index, and weekly sales.
+
+## 4. Hotel upgrades
+
+**File:** [`data/hotel_upgrades.csv`](data/hotel_upgrades.csv)
+
+**Rows:** 900 synthetic stays
+
+**Uses:** logistic regression, odds ratios, and predicted probabilities.
+
+The outcome is whether a guest received an upgrade. Predictors include loyalty
+status, occupancy, prior stays, spending, events, and booking channel.
+
+## 5. Replication sample
+
+**File:** [`data/employee_replication.csv`](data/employee_replication.csv)
+
+**Rows:** 360 synthetic employees
+
+**Uses:** reproducing an analysis in a second sample and comparing estimates.
+
+## Data dictionary
+
+A variable-level dictionary is available here:
+
+[`data/data_dictionary.csv`](data/data_dictionary.csv)
+
+## Why synthetic data?
+
+Synthetic data provides three teaching advantages:
+
+- the examples can be shared publicly without privacy concerns;
+- the same underlying relationships can support several methods;
+- the generation process can be inspected and reproduced.
+
+The generation scripts are available in `data-raw/`.
+
+::: {.callout-warning}
+Synthetic data can look realistic but does not establish evidence about real
+organizations. Results from these files must never be presented as empirical
+findings about actual employees, firms, or customers.
+:::

@@ -1,0 +1,20 @@
+---
+title: "Exercises"
+---
+
+These worksheets are designed for live labs or independent practice. Each one
+uses the same files and concepts as the corresponding lesson.
+
+| Exercise | Topic | Suggested time |
+|---|---|---:|
+| [1](01-first-steps.qmd) | RStudio, objects, and data frames | 30 min |
+| [2](02-clean-describe.qmd) | Cleaning and descriptive statistics | 45 min |
+| [3](03-tests.qmd) | Correlations and t-tests | 45 min |
+| [4](04-measurement.qmd) | Reliability, EFA, and chi-square | 60 min |
+| [5](05-regression.qmd) | Regression and diagnostics | 60 min |
+| [6](06-moderation-mediation.qmd) | Interactions and indirect effects | 60 min |
+| [7](07-logistic.qmd) | Logistic regression | 45 min |
+| [8](08-replication.qmd) | Replication and reporting | 60 min |
+
+Solutions are kept in a separate section so students can attempt the tasks
+first.

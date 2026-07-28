@@ -1,0 +1,154 @@
+---
+title: "9. Replication and reporting"
+---
+
+## Learning goals
+
+You will learn to:
+
+- distinguish computational reproduction from empirical replication;
+- rerun the same analysis on a new sample;
+- compare estimates and confidence intervals;
+- create an auditable output table;
+- write a concise quantitative-results paragraph.
+
+## Reproduction and replication
+
+- **Reproduction:** use the same data and code to recover the reported result.
+- **Replication:** use a new sample or setting to examine whether the result is
+  similar.
+
+This lesson uses a second simulated employee sample as a simple replication.
+
+::: {.research-question}
+**Research question:** Is the association of engagement and workload with
+performance similar in an independent teaching sample?
+:::
+
+## Prepare both datasets
+
+```{r}
+library(tidyverse)
+library(broom)
+
+prepare_employee_data <- function(file) {
+  read_csv(file, show_col_types = FALSE) |>
+    mutate(
+      engagement_4 = 6 - engagement_4_reverse,
+      engagement = rowMeans(
+        across(c(
+          engagement_1,
+          engagement_2,
+          engagement_3,
+          engagement_4
+        )),
+        na.rm = TRUE
+      )
+    )
+}
+
+original <- prepare_employee_data("data/employee_survey.csv")
+replication <- prepare_employee_data("data/employee_replication.csv")
+```
+
+The small function prevents us from applying different preparation steps to
+the two samples. Functions are optional for beginners, but this example shows
+why they can improve consistency.
+
+## Estimate the same model twice
+
+```{r}
+original_model <- lm(
+  performance ~ engagement + workload + training_group,
+  data = original
+)
+
+replication_model <- lm(
+  performance ~ engagement + workload + training_group,
+  data = replication
+)
+```
+
+## Build a comparison table
+
+```{r}
+comparison <- bind_rows(
+  tidy(original_model, conf.int = TRUE) |>
+    mutate(sample = "Original"),
+  tidy(replication_model, conf.int = TRUE) |>
+    mutate(sample = "Replication")
+) |>
+  select(sample, term, estimate, conf.low, conf.high, p.value)
+
+comparison
+```
+
+Compare:
+
+- direction of each estimate;
+- approximate magnitude;
+- confidence-interval overlap and width;
+- whether substantive conclusions are similar;
+- sample and measurement differences.
+
+A coefficient need not have the same p-value in both samples to show a broadly
+similar pattern.
+
+## Save the output
+
+```{r}
+write_csv(
+  comparison,
+  "replication_model_comparison.csv"
+)
+```
+
+A reproducible project should preserve the code that generated a table, not
+only the copied table.
+
+## Report the result
+
+A compact results paragraph can follow this structure:
+
+> We estimated linear regressions predicting employee performance from
+engagement, workload, and training status. In the original sample, engagement
+was [positively/negatively] associated with performance (b = ..., 95% CI [...,
+...]), controlling for the other predictors. The estimate in the replication
+sample was [similar/different] in direction and magnitude (b = ..., 95% CI
+[..., ...]). These observational results indicate an association and do not by
+themselves establish a causal effect.
+
+## Reproducibility checklist
+
+- Use an R Project and relative file paths.
+- Keep raw data separate from derived outputs.
+- Record package requirements.
+- Set a seed for random procedures.
+- Preserve scripts and data-processing decisions.
+- Label simulated and real data accurately.
+- Avoid editing numerical output by hand.
+- Document deviations from the original analysis.
+
+## Practice
+
+1. Compare descriptive statistics across the samples.
+2. Add age and tenure to both models.
+3. Identify one estimate that changes most.
+4. Complete the results paragraph with the actual numbers.
+5. Render the report template in `templates/research-report.qmd`.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Calling a rerun on the same data a replication.
+- Changing the model after seeing the replication result without disclosure.
+- Treating a non-significant replication estimate as proof of no relationship.
+- Comparing only p-values.
+- Copying output without preserving the generating code.
+:::
+
+## Takeaway
+
+Replication is a comparison of evidence, not a binary pass/fail test. Clear
+code, consistent preparation, and transparent reporting make the comparison
+credible.

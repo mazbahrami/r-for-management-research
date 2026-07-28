@@ -1,0 +1,42 @@
+---
+title: "Learning R for Management Research"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Purpose
+
+- Use R to answer management-research questions
+- Work from script to evidence to interpretation
+- Build reproducible habits from the first session
+
+## The workflow
+
+- Question → Data → Prepare → Explore → Test/Model → Interpret → Report
+- R is a tool; research design determines what conclusions are defensible
+
+## Course cases
+
+- Employee survey
+- Training experiment
+- Marketing mix
+- Hotel upgrades
+- Replication sample
+
+## Student workflow
+
+- Open the `.Rproj` file
+- Run code in short blocks
+- Inspect before transforming
+- Write an interpretation after each result
+
+## Boundaries
+
+- Beginner-friendly, applied, and selective
+- No advanced programming or causal inference
+- Simulated data are for learning—not organizational evidence

@@ -1,0 +1,188 @@
+---
+title: "8. Logistic regression"
+---
+
+## Learning goals
+
+You will learn to:
+
+- recognize when a binary outcome requires logistic regression;
+- estimate a beginner-friendly logistic model;
+- interpret odds ratios cautiously;
+- calculate predicted probabilities for meaningful profiles;
+- distinguish classification from explanation.
+
+::: {.research-question}
+**Research question:** Which booking and guest characteristics are associated
+with receiving a complimentary hotel-room upgrade?
+:::
+
+## Why not linear regression?
+
+The outcome `upgrade` has two values:
+
+- `0`: no upgrade;
+- `1`: upgrade.
+
+Logistic regression models the log-odds of the outcome and keeps predicted
+probabilities between 0 and 1.
+
+## Import and prepare
+
+```{r}
+library(tidyverse)
+library(broom)
+
+hotel <- read_csv(
+  "data/hotel_upgrades.csv",
+  show_col_types = FALSE
+) |>
+  mutate(
+    loyalty_status = factor(
+      loyalty_status,
+      levels = c("None", "Silver", "Gold", "Platinum")
+    ),
+    special_event = factor(special_event),
+    direct_booking = factor(direct_booking)
+  )
+```
+
+Inspect the outcome:
+
+```{r}
+hotel |>
+  count(upgrade) |>
+  mutate(percent = 100 * n / sum(n))
+```
+
+## Estimate the model
+
+```{r}
+upgrade_model <- glm(
+  upgrade ~
+    loyalty_status +
+    prior_stays +
+    occupancy_rate +
+    total_spend_eur +
+    special_event +
+    direct_booking,
+  data = hotel,
+  family = binomial
+)
+
+summary(upgrade_model)
+```
+
+## Convert coefficients to odds ratios
+
+```{r}
+tidy(
+  upgrade_model,
+  exponentiate = TRUE,
+  conf.int = TRUE
+)
+```
+
+An odds ratio:
+
+- above 1 indicates higher estimated odds;
+- below 1 indicates lower estimated odds;
+- equal to 1 indicates no estimated change in odds.
+
+Odds are not probabilities. An odds ratio of 2 does not mean the probability
+doubles.
+
+## Predicted probabilities
+
+Predicted probabilities are often easier to communicate.
+
+```{r}
+guest_profiles <- tibble(
+  loyalty_status = factor(
+    c("None", "Gold"),
+    levels = c("None", "Silver", "Gold", "Platinum")
+  ),
+  prior_stays = c(0, 7),
+  occupancy_rate = c(90, 65),
+  total_spend_eur = c(250, 900),
+  special_event = factor(
+    c("No", "No"),
+    levels = levels(hotel$special_event)
+  ),
+  direct_booking = factor(
+    c("No", "Yes"),
+    levels = levels(hotel$direct_booking)
+  )
+)
+
+guest_profiles |>
+  mutate(
+    predicted_probability = predict(
+      upgrade_model,
+      newdata = guest_profiles,
+      type = "response"
+    )
+  )
+```
+
+The two profiles differ on several characteristics, so this comparison is a
+scenario illustration rather than the isolated effect of one variable.
+
+## A one-variable probability plot
+
+```{r}
+probability_data <- tibble(
+  loyalty_status = factor(
+    "Silver",
+    levels = c("None", "Silver", "Gold", "Platinum")
+  ),
+  prior_stays = 0:12,
+  occupancy_rate = mean(hotel$occupancy_rate),
+  total_spend_eur = median(hotel$total_spend_eur),
+  special_event = factor(
+    "No", levels = levels(hotel$special_event)
+  ),
+  direct_booking = factor(
+    "Yes", levels = levels(hotel$direct_booking)
+  )
+) |>
+  mutate(
+    probability = predict(
+      upgrade_model,
+      newdata = ., type = "response"
+    )
+  )
+
+probability_data |>
+  ggplot(aes(x = prior_stays, y = probability)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Predicted upgrade probability",
+    x = "Prior stays",
+    y = "Predicted probability"
+  )
+```
+
+## Practice
+
+1. Fit a smaller model using loyalty, occupancy, and direct booking.
+2. Compare odds ratios with predicted probabilities.
+3. Create two profiles that differ only in loyalty status.
+4. Explain why a predictive association may not represent a fair decision rule.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Interpreting odds ratios as probabilities.
+- Treating a significant predictor as a causal driver.
+- Reporting accuracy without considering class balance.
+- Using sensitive or proxy variables without ethical reflection.
+- Assuming a simulated teaching model is suitable for deployment.
+:::
+
+## Takeaway
+
+Logistic regression models binary outcomes. Predicted probabilities usually
+provide the clearest applied interpretation, but ethical and design questions
+remain essential.

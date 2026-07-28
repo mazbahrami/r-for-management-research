@@ -1,0 +1,37 @@
+---
+title: "Lab 4: Regression and Diagnostics"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Research question
+
+- Which marketing activities are associated with weekly sales?
+
+## Model
+
+- Outcome: sales
+- Predictors: advertising, discount, competitor conditions
+- Each coefficient is conditional on included predictors
+
+## Interpretation
+
+- Original units matter
+- Report estimate and confidence interval
+- Avoid causal language without a causal design
+
+## Diagnostics
+
+- Linearity
+- Residual pattern and spread
+- Multicollinearity
+- Influential observations
+
+## Judgement
+
+- An unusual week is a question to investigate—not a case to delete automatically

@@ -1,0 +1,189 @@
+---
+title: "5. Exploratory factor analysis and chi-square"
+---
+
+## Learning goals
+
+You will learn to:
+
+- explain what exploratory factor analysis is for;
+- prepare survey items for EFA;
+- inspect factorability;
+- estimate and interpret a simple rotated factor solution;
+- test association between two categorical variables with chi-square.
+
+::: {.research-question}
+**Research questions:**
+1. Do the twelve survey items form the expected leadership, engagement, and
+role-clarity dimensions?
+2. Is remote-work mode associated with high turnover intention?
+:::
+
+## Exploratory factor analysis
+
+EFA examines whether correlations among observed items can be represented by a
+smaller number of latent dimensions.
+
+It is exploratory: the pattern is learned from the data rather than fully
+specified in advance.
+
+## Prepare the items
+
+```{r}
+library(tidyverse)
+library(psych)
+
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+) |>
+  mutate(
+    leadership_4 = 6 - leadership_4_reverse,
+    engagement_4 = 6 - engagement_4_reverse
+  )
+
+survey_items <- employees |>
+  select(
+    leadership_1,
+    leadership_2,
+    leadership_3,
+    leadership_4,
+    engagement_1,
+    engagement_2,
+    engagement_3,
+    engagement_4,
+    role_clarity_1,
+    role_clarity_2,
+    role_clarity_3,
+    role_clarity_4
+  ) |>
+  drop_na()
+```
+
+For this introductory exercise, rows with missing item responses are removed.
+A real study should justify its missing-data strategy more carefully.
+
+## Check factorability
+
+```{r}
+KMO(survey_items)
+cortest.bartlett(
+  cor(survey_items),
+  n = nrow(survey_items)
+)
+```
+
+- KMO assesses whether the correlation pattern is suitable for factor analysis.
+- Bartlett's test examines whether the correlation matrix differs from an
+identity matrix.
+
+These diagnostics do not decide the factor solution on their own.
+
+## Explore the number of factors
+
+```{r}
+fa.parallel(
+  survey_items,
+  fa = "fa"
+)
+```
+
+Parallel analysis compares observed eigenvalues with those expected from random
+data.
+
+## Estimate three factors
+
+```{r}
+efa_model <- fa(
+  survey_items,
+  nfactors = 3,
+  rotate = "oblimin",
+  fm = "minres"
+)
+
+print(
+  efa_model$loadings,
+  cutoff = .30
+)
+```
+
+We use an oblique rotation because management constructs can reasonably be
+correlated.
+
+A loading describes how strongly an item is related to a factor. Look for:
+
+- several meaningful loadings on each factor;
+- items loading strongly on their intended factor;
+- limited cross-loadings;
+- a solution that makes theoretical sense.
+
+## Chi-square test
+
+Create categorical variables:
+
+```{r}
+employees_categorical <- employees |>
+  mutate(
+    remote_mode = case_when(
+      remote_days == 0 ~ "On-site",
+      remote_days <= 3 ~ "Hybrid",
+      remote_days >= 4 ~ "Mostly remote"
+    ),
+    high_turnover_intention = if_else(
+      turnover_intention >= 5,
+      "High",
+      "Not high"
+    )
+  )
+```
+
+Build a contingency table:
+
+```{r}
+turnover_table <- table(
+  employees_categorical$remote_mode,
+  employees_categorical$high_turnover_intention
+)
+
+turnover_table
+prop.table(turnover_table, margin = 1)
+```
+
+Run the test:
+
+```{r}
+chi_result <- chisq.test(turnover_table)
+
+chi_result
+chi_result$expected
+```
+
+The chi-square test asks whether the observed combination of categories differs
+from what would be expected if the variables were independent.
+
+::: {.interpretation}
+A significant chi-square test indicates association, not the direction,
+magnitude, mechanism, or causality. Row percentages and a suitable effect size
+are needed for substantive interpretation.
+:::
+
+## Practice
+
+1. Run EFA with two factors and compare the interpretability.
+2. Identify the strongest-loading item for each factor.
+3. Test association between department and managerial status.
+4. Inspect expected cell counts before interpreting the chi-square result.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Choosing the number of factors only because it gives a preferred result.
+- Treating PCA and common factor analysis as identical.
+- Ignoring cross-loadings and theory.
+- Interpreting chi-square as evidence that one category causes another.
+:::
+
+## Takeaway
+
+EFA helps explore measurement structure; chi-square tests association between
+categorical variables. Both require interpretation beyond a p-value.

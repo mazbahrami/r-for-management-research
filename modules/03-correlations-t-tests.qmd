@@ -1,0 +1,159 @@
+---
+title: "3. Correlations, confidence intervals, and t-tests"
+---
+
+## Learning goals
+
+You will learn to:
+
+- interpret a correlation;
+- run independent and paired t-tests;
+- read a confidence interval and p-value;
+- report an effect size;
+- distinguish statistical evidence from practical importance.
+
+::: {.research-question}
+**Research questions:**
+1. Are satisfaction and performance associated?
+2. Do training and control groups differ?
+3. Did participants improve after the intervention?
+:::
+
+## Correlation
+
+```{r}
+library(tidyverse)
+
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+)
+
+cor.test(
+  employees$job_satisfaction,
+  employees$performance,
+  use = "complete.obs"
+)
+```
+
+Pearson's correlation, \(r\), ranges from -1 to +1:
+
+- positive values indicate that larger values tend to occur together;
+- negative values indicate that one variable tends to decrease as the other increases;
+- values closer to zero indicate a weaker linear relationship.
+
+A correlation does not establish causation.
+
+## Independent-samples t-test
+
+Use an independent t-test when comparing a numeric outcome between two separate
+groups.
+
+```{r}
+independent_test <- t.test(
+  performance ~ training_group,
+  data = employees
+)
+
+independent_test
+```
+
+The formula means:
+
+```text
+numeric outcome ~ two-group variable
+```
+
+By default, R uses Welch's t-test, which does not require equal group
+variances.
+
+## Effect size
+
+```{r}
+library(effectsize)
+
+cohens_d(
+  performance ~ training_group,
+  data = employees
+)
+```
+
+A p-value addresses compatibility with a null model. An effect size addresses
+the magnitude of the difference. Report both.
+
+## Paired-samples t-test
+
+Use a paired t-test when two measurements belong to the same participant.
+
+```{r}
+training <- read_csv(
+  "data/training_experiment.csv",
+  show_col_types = FALSE
+)
+
+paired_test <- t.test(
+  training$post_score,
+  training$pre_score,
+  paired = TRUE
+)
+
+paired_test
+```
+
+The pairing matters because each post-score is linked to the same person's
+pre-score.
+
+## Difference in change between groups
+
+```{r}
+t.test(
+  change_score ~ group,
+  data = training
+)
+```
+
+This asks whether the average improvement differs between training and control
+participants.
+
+## Confidence intervals
+
+A 95% confidence interval gives a range of effect sizes compatible with the
+data and model assumptions. A narrow interval is more precise than a wide
+interval.
+
+Do not interpret it as “there is a 95% probability that the true value is
+inside this already calculated interval.”
+
+## A reporting template
+
+> The training group had a higher mean performance score than the control
+> group. The estimated mean difference was **[difference]**, 95% CI
+> **[lower, upper]**, Welch's \(t\)(**df**) = **value**, \(p\) = **value**,
+> Cohen's \(d\) = **value**.
+
+::: {.interpretation}
+A small p-value does not automatically imply a large, useful, or causal effect.
+Interpret the estimated difference, uncertainty, research design, and practical
+context together.
+:::
+
+## Practice
+
+1. Test whether burnout differs between managers and non-managers.
+2. Calculate the correlation between workload and burnout.
+3. Compare post-scores between the training and control groups.
+4. Explain which test is paired and why.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Running a paired test on unrelated groups.
+- Reporting only \(p < .05\).
+- Saying “no effect” when a test is not significant.
+- Claiming training caused a difference when group assignment was not random.
+:::
+
+## Takeaway
+
+Choose the t-test based on the study design, then interpret the estimated
+difference, confidence interval, effect size, and p-value together.

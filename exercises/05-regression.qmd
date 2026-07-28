@@ -1,0 +1,16 @@
+---
+title: "Exercise 5: Regression"
+---
+
+Using `marketing_mix.csv`:
+
+1. Plot sales against each advertising variable.
+2. Estimate a model with the three advertising channels.
+3. Add discount and competitor price index.
+4. Compare adjusted R-squared across models.
+5. Interpret the search-advertising coefficient in its original units.
+6. Inspect VIF values and diagnostic plots.
+7. Identify the observation with the largest Cook's distance.
+8. Re-estimate the model without that case only as a sensitivity check.
+9. Explain whether the substantive conclusion changes and why deletion should
+   not be automatic.

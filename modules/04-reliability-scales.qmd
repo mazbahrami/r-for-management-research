@@ -1,0 +1,156 @@
+---
+title: "4. Reliability and scale construction"
+---
+
+## Learning goals
+
+You will learn to:
+
+- identify multi-item constructs;
+- reverse-score negatively worded items;
+- calculate Cronbach's alpha;
+- inspect item diagnostics;
+- construct a scale score with a transparent missing-data rule.
+
+::: {.research-question}
+**Research question:** Do the survey items consistently measure leadership and
+engagement, and how can we combine them into usable variables?
+:::
+
+## Why use several items?
+
+Management constructs such as leadership, engagement, trust, or perceived
+support are not usually observed directly. Researchers often measure them with
+several survey items.
+
+A scale score is defensible only when the items are conceptually coherent and
+show acceptable measurement properties.
+
+## Reverse-coded items
+
+Some items are worded in the opposite direction. In this dataset,
+`leadership_4_reverse` and `engagement_4_reverse` are negative items.
+
+For a 1–5 scale:
+
+```text
+reversed score = 6 - original score
+```
+
+```{r}
+library(tidyverse)
+library(psych)
+
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+) |>
+  mutate(
+    leadership_4 = 6 - leadership_4_reverse,
+    engagement_4 = 6 - engagement_4_reverse
+  )
+```
+
+If reverse coding is forgotten, the item can reduce reliability and distort
+the scale.
+
+## Select the items
+
+```{r}
+leadership_items <- employees |>
+  select(
+    leadership_1,
+    leadership_2,
+    leadership_3,
+    leadership_4
+  )
+
+engagement_items <- employees |>
+  select(
+    engagement_1,
+    engagement_2,
+    engagement_3,
+    engagement_4
+  )
+```
+
+## Calculate Cronbach's alpha
+
+```{r}
+leadership_alpha <- alpha(leadership_items)
+leadership_alpha
+```
+
+Focus on:
+
+- raw alpha;
+- corrected item-total correlations;
+- alpha if an item is deleted;
+- warnings about reverse direction.
+
+Alpha is evidence about internal consistency, not proof that the scale is
+unidimensional or valid.
+
+## Build scale scores
+
+We will require at least three answered items out of four.
+
+```{r}
+employees_scored <- employees |>
+  mutate(
+    leadership_valid_items = rowSums(!is.na(leadership_items)),
+    engagement_valid_items = rowSums(!is.na(engagement_items)),
+    leadership = if_else(
+      leadership_valid_items >= 3,
+      rowMeans(leadership_items, na.rm = TRUE),
+      NA_real_
+    ),
+    engagement = if_else(
+      engagement_valid_items >= 3,
+      rowMeans(engagement_items, na.rm = TRUE),
+      NA_real_
+    )
+  )
+```
+
+The missing-data rule should be decided and reported rather than improvised
+after seeing the results.
+
+## Describe the scales
+
+```{r}
+employees_scored |>
+  summarise(
+    mean_leadership = mean(leadership, na.rm = TRUE),
+    sd_leadership = sd(leadership, na.rm = TRUE),
+    mean_engagement = mean(engagement, na.rm = TRUE),
+    sd_engagement = sd(engagement, na.rm = TRUE)
+  )
+```
+
+## Interpretation checklist
+
+Before using a scale, ask:
+
+1. Do the items represent the same theoretical construct?
+2. Were negative items coded in the same direction?
+3. Are item-total relationships reasonable?
+4. Does exploratory or confirmatory factor analysis support the structure?
+5. Is the scale appropriate for this population and context?
+
+::: {.common-mistake}
+A high alpha can occur because items are repetitive. It does not establish
+content validity, construct validity, or causality.
+:::
+
+## Practice
+
+1. Calculate alpha for the four engagement items.
+2. Calculate alpha before reverse-coding `engagement_4_reverse`.
+3. Compare the result after correct reverse coding.
+4. Create a `role_clarity` scale from its four items.
+
+## Takeaway
+
+Reliability analysis supports transparent scale construction, but it must be
+combined with theory and evidence about dimensionality and validity.

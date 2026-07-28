@@ -1,0 +1,56 @@
+---
+title: "Solutions: Exercises 3–4"
+---
+
+```{r}
+library(tidyverse)
+library(effectsize)
+library(psych)
+
+employees <- read_csv("data/employee_survey.csv", show_col_types = FALSE)
+
+cor.test(employees$workload, employees$burnout)
+t_result <- t.test(performance ~ training_group, data = employees)
+t_result
+cohens_d(performance ~ training_group, data = employees)
+
+experiment <- read_csv("data/training_experiment.csv", show_col_types = FALSE)
+t.test(post_score ~ group, data = experiment)
+
+t.test(
+  experiment$post_score[experiment$group == "Training"],
+  experiment$pre_score[experiment$group == "Training"],
+  paired = TRUE
+)
+
+employees <- employees |>
+  mutate(
+    leadership_4 = 6 - leadership_4_reverse,
+    engagement_4 = 6 - engagement_4_reverse,
+    leadership = rowMeans(
+      across(c(leadership_1, leadership_2, leadership_3, leadership_4)),
+      na.rm = TRUE
+    ),
+    engagement = rowMeans(
+      across(c(engagement_1, engagement_2, engagement_3, engagement_4)),
+      na.rm = TRUE
+    )
+  )
+
+alpha(employees |> select(starts_with("leadership_") & !ends_with("reverse")))
+
+items <- employees |>
+  select(
+    leadership_1, leadership_2, leadership_3, leadership_4,
+    engagement_1, engagement_2, engagement_3, engagement_4,
+    role_clarity_1, role_clarity_2, role_clarity_3, role_clarity_4
+  ) |>
+  drop_na()
+
+fa.parallel(items, fa = "fa")
+efa <- fa(items, nfactors = 3, rotate = "oblimin", fm = "minres")
+print(efa$loadings, cutoff = .30)
+
+manager_department <- table(employees$manager, employees$department)
+chisq.test(manager_department)
+```

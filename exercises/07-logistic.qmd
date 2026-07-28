@@ -1,0 +1,14 @@
+---
+title: "Exercise 7: Logistic regression"
+---
+
+Using `hotel_upgrades.csv`:
+
+1. Calculate the upgrade rate.
+2. Convert categorical predictors to factors.
+3. Estimate the model shown in Module 8.
+4. Convert coefficients to odds ratios.
+5. Create two profiles differing only in loyalty status.
+6. Compare their predicted probabilities.
+7. Explain the difference between odds and probability.
+8. Identify one fairness or governance concern if such a model were deployed.

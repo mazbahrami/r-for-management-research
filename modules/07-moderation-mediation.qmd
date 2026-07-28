@@ -1,0 +1,176 @@
+---
+title: "7. Moderation and mediation"
+---
+
+## Learning goals
+
+You will learn to:
+
+- distinguish moderation from mediation;
+- create scale scores before modelling;
+- estimate and visualize an interaction;
+- estimate a simple statistical mediation model;
+- explain why neither analysis automatically establishes causality.
+
+## Two different questions
+
+**Moderation asks when or for whom a relationship changes.**
+
+> Is the association between workload and burnout weaker when organizational
+support is high?
+
+**Mediation asks through what statistical pathway variables are related.**
+
+> Is leadership associated with performance partly through employee engagement?
+
+These questions require different models.
+
+## Prepare the constructs
+
+```{r}
+library(tidyverse)
+library(broom)
+library(interactions)
+library(mediation)
+
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+) |>
+  mutate(
+    leadership_4 = 6 - leadership_4_reverse,
+    engagement_4 = 6 - engagement_4_reverse,
+    leadership = rowMeans(
+      across(c(leadership_1, leadership_2, leadership_3, leadership_4)),
+      na.rm = TRUE
+    ),
+    engagement = rowMeans(
+      across(c(engagement_1, engagement_2, engagement_3, engagement_4)),
+      na.rm = TRUE
+    ),
+    workload_c = workload - mean(workload, na.rm = TRUE),
+    support_c = organizational_support -
+      mean(organizational_support, na.rm = TRUE)
+  )
+```
+
+Centering makes zero represent the sample mean. It can make the lower-order
+coefficients easier to interpret, but it does not change the interaction test.
+
+## Moderation: estimate an interaction
+
+```{r}
+moderation_model <- lm(
+  burnout ~ workload_c * support_c + age + tenure_years,
+  data = employees
+)
+
+tidy(moderation_model, conf.int = TRUE)
+```
+
+The `workload_c:support_c` term is the interaction. It tests whether the slope
+of workload differs across levels of organizational support.
+
+## Visualize the interaction
+
+```{r}
+interact_plot(
+  moderation_model,
+  pred = workload_c,
+  modx = support_c,
+  plot.points = TRUE,
+  interval = TRUE
+)
+```
+
+Interpret the pattern before focusing on significance:
+
+- What happens to predicted burnout as workload rises?
+- Is that increase different at lower and higher support?
+- Are observations available across the plotted combinations?
+
+::: {.interpretation}
+When an interaction is included, the coefficient for workload is its estimated
+slope when centered support equals zero—that is, at average support.
+:::
+
+## Mediation: estimate two regressions
+
+First, create one complete-case dataset containing every variable used by
+both models. This ensures that the mediator and outcome models use exactly the
+same observations.
+
+```{r}
+mediation_data <- employees |>
+  drop_na(leadership, engagement, performance, age, tenure_years)
+
+nrow(mediation_data)
+```
+
+The mediator model predicts engagement:
+
+```{r}
+mediator_model <- lm(
+  engagement ~ leadership + age + tenure_years,
+  data = mediation_data
+)
+```
+
+The outcome model predicts performance:
+
+```{r}
+outcome_model <- lm(
+  performance ~ leadership + engagement + age + tenure_years,
+  data = mediation_data
+)
+```
+
+Estimate the indirect effect:
+
+```{r}
+set.seed(2026)
+mediation_result <- mediate(
+  mediator_model,
+  outcome_model,
+  treat = "leadership",
+  mediator = "engagement",
+  boot = TRUE,
+  sims = 500
+)
+
+summary(mediation_result)
+plot(mediation_result)
+```
+
+Key quantities include:
+
+- average causal mediation effect reported by the software;
+- average direct effect;
+- total effect;
+- proportion mediated.
+
+The package uses causal terminology, but a cross-sectional observational dataset
+does not, by itself, justify a causal mediation claim. In this lesson, describe
+the result as a **statistical indirect association**.
+
+## Practice
+
+1. Remove the interaction and compare the model.
+2. Plot the moderation without raw points. Which view is more informative?
+3. Reverse the mediator and outcome conceptually. Why is theory essential?
+4. Write separate one-paragraph interpretations for moderation and mediation.
+
+## Common mistakes
+
+::: {.common-mistake}
+- Treating moderation and mediation as interchangeable.
+- Interpreting lower-order terms without considering the interaction.
+- Claiming a mechanism from cross-sectional correlations alone.
+- Selecting a mediator only because the indirect effect is significant.
+- Ignoring measurement quality of the constructs.
+:::
+
+## Takeaway
+
+Moderation describes changing relationships; mediation describes an indirect
+pathway. Both depend on theory, measurement, design, and cautious interpretation.

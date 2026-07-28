@@ -1,0 +1,143 @@
+---
+title: "1. First steps in R and RStudio"
+---
+
+## Learning goals
+
+After this lesson, you should be able to:
+
+- explain the difference between R and RStudio;
+- open an R project and run a script;
+- create objects using `<-`;
+- import a CSV file;
+- inspect rows, columns, and variable types;
+- find help when you do not remember a function.
+
+::: {.research-question}
+**Research question:** What information is contained in our employee survey, and
+how is the dataset organized?
+:::
+
+## R and RStudio
+
+**R** performs the calculations. **RStudio** is the interface in which we write,
+run, organize, and inspect R code.
+
+A useful beginner rule is:
+
+> Write important work in a script, not only in the Console.
+
+Console commands disappear easily. A saved script records what you did and can
+be run again.
+
+## Open the project
+
+Open `r-for-management-research.Rproj`. Then open
+`code/01-first-steps.R`.
+
+## Load a package
+
+```{r}
+library(tidyverse)
+```
+
+A package adds functions to R. `tidyverse` contains tools for importing,
+transforming, and visualizing data.
+
+## Import the dataset
+
+```{r}
+employees <- read_csv(
+  "data/employee_survey.csv",
+  show_col_types = FALSE
+)
+```
+
+Read this from right to left:
+
+1. `read_csv()` reads the file;
+2. the result is assigned to the object `employees`;
+3. the object can be reused in later commands.
+
+## Inspect the data
+
+```{r}
+head(employees)
+glimpse(employees)
+names(employees)
+dim(employees)
+```
+
+- `head()` displays the first rows.
+- `glimpse()` shows variables and their data types.
+- `names()` lists the variable names.
+- `dim()` gives the number of rows and columns.
+
+## Understand common data types
+
+| Type | Meaning | Example |
+|---|---|---|
+| `chr` | text or category | department |
+| `dbl` | numeric value | performance |
+| `int` | whole number | age |
+| `lgl` | logical value | `TRUE` or `FALSE` |
+| `date` | calendar date | campaign date |
+
+A category may initially appear as text. We can convert it to a factor when
+that helps the analysis.
+
+## Select a variable
+
+```{r}
+employees$performance
+```
+
+The `$` operator selects one column from a data frame.
+
+## Create your own objects
+
+```{r}
+course_name <- "Research Project Design"
+number_of_employees <- nrow(employees)
+
+course_name
+number_of_employees
+```
+
+Object names should be descriptive and use underscores rather than spaces.
+
+## Comments
+
+```r
+# This is a comment.
+mean(employees$performance, na.rm = TRUE)
+```
+
+R ignores text after `#`. Comments explain why a step is being performed.
+
+## Getting help
+
+```{r}
+#| eval: false
+?mean
+?read_csv
+```
+
+You can also place the cursor inside a function and press `F1` in RStudio.
+
+::: {.common-mistake}
+**Common mistake:** R is case-sensitive. `Performance`, `performance`, and
+`PERFORMANCE` are different names.
+:::
+
+## Practice
+
+1. Display the first ten rows with `head(employees, 10)`.
+2. Find the number of columns using `ncol(employees)`.
+3. Select the `department` variable.
+4. Ask for help about `summary()`.
+
+## Takeaway
+
+An R analysis starts by creating a project, importing data into an object, and
+checking its structure before calculating anything.

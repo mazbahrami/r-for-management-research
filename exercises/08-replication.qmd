@@ -1,0 +1,12 @@
+---
+title: "Exercise 8: Replication and reporting"
+---
+
+1. Apply identical engagement-score preparation to both employee datasets.
+2. Compare mean engagement, workload, and performance.
+3. Estimate the same regression in both samples.
+4. Combine estimates and confidence intervals in one table.
+5. Identify the most stable and least stable coefficient.
+6. Save the table as CSV.
+7. Complete a short results paragraph using actual estimates.
+8. List three details another researcher would need to reproduce your work.

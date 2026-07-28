@@ -1,0 +1,40 @@
+---
+title: "Lab 1: RStudio, Data, and Description"
+author: "Maziyar Bahrami"
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    footer: "Learning R for Management Research"
+---
+
+## Research question
+
+- What does the employee survey contain?
+- What must be cleaned before analysis?
+
+## RStudio
+
+- Script: saved instructions
+- Console: immediate execution
+- Environment: current objects
+- Files/Plots/Help: project resources
+
+## Objects and functions
+
+- `employees <- read_csv(...)`
+- `glimpse(employees)`
+- `mean(employees$age, na.rm = TRUE)`
+
+## Core verbs
+
+- `select()` variables
+- `filter()` rows
+- `mutate()` variables
+- `group_by()` + `summarise()` comparisons
+
+## Interpretation
+
+- Describe who and what is in the sample
+- Do not infer effects from descriptive differences

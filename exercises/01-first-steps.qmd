@@ -1,0 +1,12 @@
+---
+title: "Exercise 1: First steps"
+---
+
+1. Open `r-for-management-research.Rproj`.
+2. Run `R/check_setup.R`.
+3. Create objects called `students`, `weeks`, and `course_name`.
+4. Calculate the mean of `c(22, 25, 24, 29, 20)`.
+5. Import `data/employee_survey.csv` as `employees`.
+6. Use `glimpse()`, `head()`, and `summary()`.
+7. Answer: How many rows and columns are present? What does one row represent?
+8. Save your work as `exercise-01.R`.

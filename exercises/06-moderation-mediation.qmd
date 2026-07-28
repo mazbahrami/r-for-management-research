@@ -1,0 +1,13 @@
+---
+title: "Exercise 6: Moderation and mediation"
+---
+
+1. Build leadership and engagement scale scores.
+2. Center workload and organizational support.
+3. Estimate `burnout ~ workload_c * support_c` plus age and tenure controls.
+4. Interpret the interaction term and plot it.
+5. Estimate the mediator model for engagement.
+6. Estimate the performance outcome model.
+7. Run the mediation procedure with a fixed seed.
+8. Describe the indirect association without making a causal claim.
+9. Write one sentence distinguishing moderation from mediation.
