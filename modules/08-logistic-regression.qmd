@@ -145,11 +145,14 @@ probability_data <- tibble(
   direct_booking = factor(
     "Yes", levels = levels(hotel$direct_booking)
   )
-) |>
+)
+
+probability_data <- probability_data |>
   mutate(
     probability = predict(
       upgrade_model,
-      newdata = ., type = "response"
+      newdata = probability_data,
+      type = "response"
     )
   )
 
