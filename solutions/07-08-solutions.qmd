@@ -29,8 +29,16 @@ profiles <- tibble(
   total_spend_eur = 500,
   special_event = factor("No", levels = levels(hotel$special_event)),
   direct_booking = factor("Yes", levels = levels(hotel$direct_booking))
-) |>
-  mutate(probability = predict(upgrade_model, newdata = ., type = "response"))
+)
+
+profiles <- profiles |>
+  mutate(
+    probability = predict(
+      upgrade_model,
+      newdata = profiles,
+      type = "response"
+    )
+  )
 profiles
 
 prepare <- function(path) {
