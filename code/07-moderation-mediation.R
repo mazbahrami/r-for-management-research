@@ -18,7 +18,7 @@ employees <- read_csv(
   )
 
 leadership_items <- employees |>
-  select(
+  dplyr::select(
     leadership_1,
     leadership_2,
     leadership_3,
@@ -26,7 +26,7 @@ leadership_items <- employees |>
   )
 
 engagement_items <- employees |>
-  select(
+  dplyr::select(
     engagement_1,
     engagement_2,
     engagement_3,
