@@ -72,3 +72,39 @@ guest_profiles |>
       type = "response"
     )
   )
+
+# Probability curve across prior stays
+probability_data <- tibble(
+  loyalty_status = factor(
+    "Silver",
+    levels = levels(hotel$loyalty_status)
+  ),
+  prior_stays = 0:12,
+  occupancy_rate = mean(hotel$occupancy_rate),
+  total_spend_eur = median(hotel$total_spend_eur),
+  special_event = factor(
+    "No", levels = levels(hotel$special_event)
+  ),
+  direct_booking = factor(
+    "Yes", levels = levels(hotel$direct_booking)
+  )
+)
+
+probability_data <- probability_data |>
+  mutate(
+    probability = predict(
+      upgrade_model,
+      newdata = probability_data,
+      type = "response"
+    )
+  )
+
+probability_data |>
+  ggplot(aes(x = prior_stays, y = probability)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Predicted upgrade probability",
+    x = "Prior stays",
+    y = "Predicted probability"
+  )
